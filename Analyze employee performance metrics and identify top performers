@@ -1,0 +1,85 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 1. Sample Employee Performance Data
+data = {
+    'Employee': ['Alice', 'Bob', 'Charlie', 'Diana', 'Ethan', 'Fatima', 'George', 'Hannah'],
+    'Sales_Closed': [120, 85, 40, 95, 110, 30, 70, 125],
+    'Revenue': [48000, 34000, 16000, 36000, 42000, 12000, 28000, 50000],
+    'CSAT_Score': [4.7, 4.5, 3.8, 4.1, 4.6, 3.5, 4.0, 4.8],  # Out of 5
+    'Tasks_Completed': [250, 210, 150, 230, 240, 140, 180, 260]
+}
+df = pd.DataFrame(data)
+
+# 2. Define Top Performer Criteria
+def classify_employee(row):
+    if row['Revenue'] >= 40000 and row['CSAT_Score'] >= 4.5 and row['Sales_Closed'] >= 100:
+        return 'Top Performer'
+    elif row['Revenue'] >= 30000 and row['CSAT_Score'] >= 4.0:
+        return 'Mid Performer'
+    else:
+        return 'Needs Improvement'
+
+df['Performance_Level'] = df.apply(classify_employee, axis=1)
+
+# 3. Summary by Performance Level
+summary = df.groupby('Performance_Level')[['Revenue', 'Sales_Closed', 'CSAT_Score']].mean().round(1)
+print("\n--- Employee Performance Summary ---")
+print(summary)
+
+# 4. Visualization: Revenue vs Sales with CSAT hue
+plt.figure(figsize=(8, 5))
+sns.scatterplot(data=df, x="Sales_Closed", y="Revenue", hue="Performance_Level", size="CSAT_Score",
+                palette="Set2", sizes=(100, 300), legend="full")
+plt.title("Employee Performance: Sales vs Revenue")
+plt.xlabel("Sales Closed")
+plt.ylabel("Revenue (£)")
+plt.tight_layout()
+plt.show()
+Explanation of Code
+🔹 Step 1: Dataset Creation
+The dataset includes key performance fields such as:
+•	Sales Closed
+•	Revenue Generated
+•	Customer Satisfaction
+•	Tasks Completed
+These metrics can come from CRMs, helpdesk systems, or manual tracking.
+________________________________________
+🔹 Step 2: Employee Classification
+We use a rule-based system to classify employees into:
+•	Top Performer: High sales, revenue, and customer rating
+•	Mid Performer: Moderate results, acceptable satisfaction
+•	Needs Improvement: Lagging in most or all metrics
+This can be expanded with weighted scoring or machine learning models for larger datasets.
+________________________________________
+🔹 Step 3: Segment Summary
+A summary table shows average KPIs by performance level, helping managers benchmark and set goals for each group.
+________________________________________
+🔹 Step 4: Visualization
+The scatter plot shows:
+•	Sales Closed vs Revenue
+•	Bubble size = CSAT
+•	Color = Performance Level
+This visual quickly reveals who performs best in both volume and quality.
+________________________________________
+🏆 Insights & Recommendations
+Segment	Behavior Summary	Action Plan
+Top Performers	Consistent, high-impact employees	Recognize, reward, and retain
+Mid Performers	Potential to grow with training or motivation	Offer coaching, incentives, stretch goals
+Needs Improvement	Struggle with volume, quality, or reliability	Identify gaps, provide support or reassign roles
+________________________________________
+✅ Benefits of This Analysis
+•	Boost team morale with data-backed recognition
+•	Guide performance reviews and bonuses
+•	Inform promotion and hiring decisions
+•	Align individuals with roles based on strengths
+________________________________________
+📦 Extensions
+You can extend this analysis with:
+•	Time-based trends (e.g., performance over months)
+•	Automated alerts for top/bottom performers
+•	Predictive modeling for future top performers
+•	Integration with HR systems or BI dashboards (Power BI, Streamlit)
+
+
