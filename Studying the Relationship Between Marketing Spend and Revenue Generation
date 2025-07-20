@@ -1,0 +1,73 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# 1. Simulated Dataset: Monthly Marketing Spend vs Revenue
+data = {
+    'Month': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+    'Marketing_Spend': [10000, 12000, 15000, 13000, 17000, 16000, 18000, 20000],
+    'Revenue': [50000, 54000, 61000, 58000, 67000, 65000, 70000, 74000]
+}
+df = pd.DataFrame(data)
+
+# 2. Scatter Plot with Trend Line
+sns.set(style="whitegrid")
+plt.figure(figsize=(8, 5))
+sns.regplot(data=df, x="Marketing_Spend", y="Revenue", ci=None, color="teal", marker="o")
+plt.title("Marketing Spend vs Revenue")
+plt.xlabel("Marketing Spend (£)")
+plt.ylabel("Revenue (£)")
+plt.tight_layout()
+plt.show()
+
+# 3. Correlation
+correlation = df['Marketing_Spend'].corr(df['Revenue'])
+print(f"\nCorrelation between Marketing Spend and Revenue: {correlation:.2f}")
+
+# 4. Linear Regression Model
+X = df[['Marketing_Spend']]
+y = df['Revenue']
+model = LinearRegression().fit(X, y)
+
+# Prediction Example: Estimate Revenue for £22,000 Spend
+predicted_revenue = model.predict([[22000]])
+print(f"Predicted Revenue for £22,000 marketing spend: £{predicted_revenue[0]:,.2f}")
+
+Explanation of Code
+🔹 Step 1: Simulated Dataset
+We create a simple dataset of monthly marketing spend and corresponding sales revenue. This can be easily replaced with real data from Google Ads, Meta Ads, HubSpot, or sales logs.
+________________________________________
+🔹 Step 2: Scatter Plot + Regression Line
+This visualization shows the relationship between spend and revenue. The regression line helps identify trends:
+•	A steep, upward slope suggests a strong positive relationship.
+•	Flat or downward slope implies poor marketing effectiveness.
+________________________________________
+🔹 Step 3: Correlation Analysis
+A Pearson correlation value close to +1 indicates a strong positive relationship, meaning more spend tends to generate more revenue.
+________________________________________
+🔹 Step 4: Linear Regression Modeling
+We fit a regression model to predict revenue based on spend.
+•	You can use this for budgeting future campaigns.
+•	For example, if you plan to spend £22,000 on marketing, the model predicts how much revenue you can expect.
+________________________________________
+📈 Insights & Business Impact
+Insight	Action
+Strong Positive Correlation	Maintain or increase marketing budget
+Weak Correlation	Investigate campaign quality or channel effectiveness
+Diminishing Returns Observed	Reallocate to high-ROI platforms or optimize campaign targeting
+Predictable Spend-to-Revenue	Use model to forecast outcomes and justify investments
+________________________________________
+✅ Benefits of This Analysis
+•	Prove or improve the effectiveness of your marketing strategy
+•	Reduce wasteful spending
+•	Help forecast future revenue based on planned budgets
+•	Justify increased investment in successful channels
+________________________________________
+📦 Extend This With:
+•	Multiple marketing channels (TV, Digital, Print, Social)
+•	ROAS (Return on Ad Spend) per platform
+•	Time series analysis to track performance over time
+•	A/B test data to isolate campaign impact
+
